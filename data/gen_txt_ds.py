@@ -99,19 +99,19 @@ def generate_examples_max_context(messages, fill_context=True):
 
 
 if __name__ == "__main__":
-    # parser = argparse.ArgumentParser()
-    # parser.add_argument('val_pct', type=float, help='Validation percentage')
-    # parser.add_argument('gpt_data', type=str, help='Path to GPT data JSON')
-    # args = parser.parse_args()
+    parser = argparse.ArgumentParser()
+    parser.add_argument('val_pct', type=float, help='Validation percentage')
+    parser.add_argument('gpt_data', type=str, help='Path to GPT data JSON')
+    args = parser.parse_args()
 
 
     # For Debugging 
-    class ManualArgs:
-        def __init__(self, val_pct, gpt_data):
-            self.val_pct = val_pct
-            self.gpt_data = gpt_data
+    # class ManualArgs:
+    #     def __init__(self, val_pct, gpt_data):
+    #         self.val_pct = val_pct
+    #         self.gpt_data = gpt_data
 
-    args = ManualArgs(val_pct=0.3, gpt_data="/Users/brettyoung/Desktop/mistral7b/data/conversations.json")
+    # args = ManualArgs(val_pct=0.3, gpt_data="/Users/brettyoung/Desktop/mistral7b/data/conversations.json")
 
 
 
