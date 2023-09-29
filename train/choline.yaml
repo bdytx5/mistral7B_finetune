@@ -1,0 +1,41 @@
+conda_version: 23.7.2
+hardware_filters:
+  cpu_ram: '>150'
+  disk_space: '>250'
+  gpu_name: RTX_3090
+image: nvidia/cuda:12.0.0-devel-ubuntu20.04
+local_cuda_version: '12.0'
+onStart: deepspeed train.py
+python_version: 3.10.10
+upload_locations:
+- /Users/brettyoung/Desktop/mistral7b/train
+setup_script: |
+  #!/bin/bash
+  # Download Miniconda installer
+  wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
+  # Install Miniconda
+  bash miniconda.sh -b -p $HOME/miniconda
+    # Initialize conda
+  . $HOME/miniconda/bin/activate
+  conda init
+  # Create environment
+  conda create --name choline python=3.10.10 -y
+  # Activate environment
+  conda activate choline
+  # Install vim
+  sudo apt install vim -y
+  # Set Wandb API key without user interaction
+  export WANDB_API_KEY=YOUR_API_KEY
+  pip install accelerate==0.23.0 || conda install accelerate==0.23.0 -y
+  pip install Twisted==22.10.0 || conda install Twisted==22.10.0 -y
+  pip install typing_extensions==4.8.0 || conda install typing_extensions==4.8.0 -y
+  pip install tzdata==2023.3 || conda install tzdata==2023.3 -y
+  pip install urllib3==2.0.5 || conda install urllib3==2.0.5 -y
+  pip install w3lib==2.1.2 || conda install w3lib==2.1.2 -y
+  pip install wandb==0.15.11 || conda install wandb==0.15.11 -y
+  pip install peft==0.5.0 || conda install peft==0.5.0 -y
+  pip install datasets==2.14.5 || conda install datasets==2.14.5 -y
+  pip install deepspeed || conda install deepspeed -y
+  pip install transformers git+https://github.com/huggingface/transformers.git@ab37b801b14d8b9c3186548e6e118aff623e6aa1 || conda install transformers git+https://github.com/huggingface/transformers.git@ab37b801b14d8b9c3186548e6e118aff623e6aa1 -y
+  pip install trl==0.7.1 || conda install trl==0.7.1 -y
+  deepspeed train.py 
