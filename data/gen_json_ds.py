@@ -105,7 +105,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
 
-    # For Debugging 
+    # # For Debugging 
     # class ManualArgs:
     #     def __init__(self, val_pct, gpt_data):
     #         self.val_pct = val_pct
@@ -121,16 +121,37 @@ if __name__ == "__main__":
     with open(gpt_data, 'r') as f:
         jsonData = json.load(f)
     
-    with open('./output_examples_train.txt', 'w') as train_f, \
-         open('./output_examples_val.txt', 'w') as val_f:
+
+    #### OLD FORMAT 
+    # with open('./output_examples_train.txt', 'w') as train_f, \
+    #      open('./output_examples_val.txt', 'w') as val_f:
+    #     for conversation in jsonData:
+    #         messages = get_conversation_messages(conversation)
+    #         examples = generate_examples_max_context(messages)
+    #         for i, example in enumerate(examples):
+    #             if random.random() < val_pct:
+    #                 val_f.write(example + '\n')
+    #             else:
+    #                 train_f.write(example + '\n')
+
+
+
+
+    # NEW JSONL format 
+    with open('./output_examples_train.jsonl', 'w') as train_f, \
+        open('./output_examples_val.jsonl', 'w') as val_f:
+            
         for conversation in jsonData:
             messages = get_conversation_messages(conversation)
             examples = generate_examples_max_context(messages)
             for i, example in enumerate(examples):
+                # Create a dictionary to hold the example
+                entry = {"text": example}
+                
+                # Write to the appropriate file based on random selection
                 if random.random() < val_pct:
-                    val_f.write(example + '\n')
+                    json.dump(entry, val_f)
+                    val_f.write('\n')
                 else:
-                    train_f.write(example + '\n')
-
-
-
+                    json.dump(entry, train_f)
+                    train_f.write('\n')

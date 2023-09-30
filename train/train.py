@@ -3,6 +3,8 @@ from transformers import Trainer, TrainingArguments
 from datasets import load_dataset
 import torch 
 from trl import SFTTrainer, DataCollatorForCompletionOnlyLM
+from datasets import Dataset
+import json 
 
 
 ##############  test data 
@@ -30,23 +32,42 @@ tokenizer = AutoTokenizer.from_pretrained("mistralai/Mistral-7B-Instruct-v0.1")
 model = AutoModelForCausalLM.from_pretrained("mistralai/Mistral-7B-Instruct-v0.1", torch_dtype=torch.float16)
 MAX_SEQ_LEN = 2048
 
-# Prepare the dataset and data collator
-train_dataset = TextDataset(
-    tokenizer=tokenizer,
-    file_path="./output_examples_train.txt",
-    block_size=MAX_SEQ_LEN
-)
 
-valid_dataset = TextDataset(
-    tokenizer=tokenizer,
-    file_path="./output_examples_val.txt",  # Change this path to your validation dataset
-    block_size=MAX_SEQ_LEN
-)
+# OLD DATASET FORMAT 
+# # Prepare the dataset and data collator
+# train_dataset = TextDataset(
+#     tokenizer=tokenizer,
+#     file_path="./output_examples_train.txt",
+#     block_size=MAX_SEQ_LEN
+# )
 
-data_collator = DataCollatorForLanguageModeling(
-    tokenizer=tokenizer, mlm=False
-)
+# valid_dataset = TextDataset(
+#     tokenizer=tokenizer,
+#     file_path="./output_examples_val.txt",  # Change this path to your validation dataset
+#     block_size=MAX_SEQ_LEN
+# )
 
+
+# Function to read JSONL file into a list
+def read_jsonl(path):
+    data = []
+    with open(path, 'r') as f:
+        for line in f:
+            data.append(json.loads(line))
+    return data
+
+tokenizer.add_special_tokens({'pad_token': '[PAD]'})
+
+# Read data from JSONL files and create datasets
+train_data_list = read_jsonl('./output_examples_train.jsonl')
+valid_data_list = read_jsonl('./output_examples_val.jsonl')
+
+tr_data_dict = {'text': [item['text'] for item in train_data_list]}
+val_data_dict = {'text': [item['text'] for item in valid_data_list]}
+
+train_dataset = Dataset.from_dict(tr_data_dict)
+valid_dataset = Dataset.from_dict(val_data_dict)
+# Tokenize the dataset
 
 training_args = TrainingArguments(
     output_dir="./output",
@@ -58,7 +79,8 @@ training_args = TrainingArguments(
     fp16=True,
     bf16=False,
     report_to='wandb',  # Add this line to enable Wandb logging
-    logging_steps=10, # log every 10 steps 
+    logging_steps=10, # log every 10 steps
+    eval_steps=20, 
     gradient_checkpointing=True,
     deepspeed="./zero2_deepspeed.json"  # Add this line for DeepSpeed
 )

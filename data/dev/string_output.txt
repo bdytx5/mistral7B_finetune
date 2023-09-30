@@ -1,1 +1,0 @@
-<s>[INST] Hello, who won the world series in 2020? [/INST]The Los Angeles Dodgers won the World Series in 2020.</s> [INST] Hello, who won the world series in 2020? [/INST]The Los Angeles Dodgers won the World Series in 2020.</s> 

@@ -1,8 +1,8 @@
 conda_version: 23.7.2
 hardware_filters:
-  cpu_ram: '>150'
+  cpu_ram: '>140'
   disk_space: '>250'
-  gpu_name: RTX_3090
+  gpu_name: RTX_A6000
 image: nvidia/cuda:12.0.0-devel-ubuntu20.04
 local_cuda_version: '12.0'
 onStart: deepspeed train.py
@@ -25,7 +25,7 @@ setup_script: |
   # Install vim
   sudo apt install vim -y
   # Set Wandb API key without user interaction
-  export WANDB_API_KEY=YOUR_API_KEY
+  export WANDB_API_KEY=c25cd6ef7c9dd77b11a8d5811b8fded73b572c61
   pip install accelerate==0.23.0 || conda install accelerate==0.23.0 -y
   pip install Twisted==22.10.0 || conda install Twisted==22.10.0 -y
   pip install typing_extensions==4.8.0 || conda install typing_extensions==4.8.0 -y
