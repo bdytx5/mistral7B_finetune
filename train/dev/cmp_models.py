@@ -101,7 +101,7 @@ def main():
 
     # Sample a few values from each embedding
     mistral_sample = mistral_pickle[:3, :3]
-    huggingface_sample = huggingface_pickle[:3, :3]
+    huggingface_sample = huggingface_pickle[0][:3, :3]
     print("Shape of Mistral embedding:", mistral_pickle.shape)
     print("Shape of Hugging Face embedding:", huggingface_pickle.shape)
 
