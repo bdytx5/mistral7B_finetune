@@ -2,8 +2,7 @@
 ![logo (1)](https://github.com/bdytx5/mistral7B_finetune/assets/32812705/68970552-a843-49e7-9572-bb81956b8293)<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="652.728" height="215.885" xmlns:v="https://vecta.io/nano">
 
 
-This repo stores the code for a tutorial for fine tuning Mistral 7B!
-al 7B on your own personal ChatGPT conversations as well as on Python Code!!!!
+This repo stores the code for a tutorial for fine tuning Mistral 7B on your own personal ChatGPT conversations as well as on Python Code!!!!
 
 For training Mistral on Python Code, see train/alpaca-python-10k
 
