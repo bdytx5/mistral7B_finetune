@@ -1,11 +1,15 @@
-This repo stores the code for a tutorial for fine tuning Mistral 7B on your own personal ChatGPT conversations!!!!
+This repo stores the code for a tutorial for fine tuning Mistral 7B on your own personal ChatGPT conversations as well as on Python Code!!!!
+
+For training Mistral on Python Code, see train/alpaca-python-10k
+
+
 
 In data/ you will find a script that allows you to generate a train and validation datasets from your ChatGPT data export
 
-run it using 'python gen_txt_ds.py val_pct conversations.json' where val_pct is your validation percentage and conversations.json 
+run it using 'python gen_json_ds.py val_pct conversations.json' where val_pct is your validation percentage and conversations.json 
 is the full path to your ChatGPT data 
 
-After generating your dataset, move the tr/val txt files over to the train directory, and specify their relative paths in the train script 
+After generating your dataset, move the tr/val jsonl files over to the train directory, and specify their relative paths in the train script 
 
 In train/ you will find a script for training the model, along with a choline.yaml file 
 
